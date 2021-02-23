@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -28,6 +28,13 @@ function App() {
         <section className="react-hook">
           <Counter></Counter>
         </section>
+
+
+        {/* api calling */}
+        <section className="user-api">
+            <UserData></UserData>
+        </section>
+
 
         {/* HeroList component */}
         <section className="heroList">
@@ -123,6 +130,27 @@ function Counter(){
       <h1>Count : {count}</h1> {/* short form setCount() */}
       <button onClick={()=>setCount(count - 1)}>decrease</button>
       <button onClick={increaseBtn}>increase</button>
+    </div>
+  );
+}
+
+
+// api calling 
+function UserData(){
+  const [users, setUsers] = useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data));
+  }, []);
+  return(
+    <div>
+      <h3>Total user : {users.length}</h3>
+      <ul>
+      {
+        users.map( user => <li>{user.name}</li>)
+      }
+      </ul>
     </div>
   );
 }
